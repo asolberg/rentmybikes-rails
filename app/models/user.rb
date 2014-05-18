@@ -31,14 +31,13 @@ class User < ActiveRecord::Base
   end
 
   def self.create_balanced_customer(params = {})
-    begin
-      Balanced::Marketplace.mine.create_customer(
-        :name   => params[:name],
-        :email  => params[:email]
-        )
-    rescue
-      'There was an error adding a customer'
-    end
+   begin
+     Balanced::Customer.new(
+          :name   => params[:name],
+          :email  => params[:email]
+      ).save
+    rescue Exception => e
+      e.message
   end
 
 end
